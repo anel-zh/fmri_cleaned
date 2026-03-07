@@ -1,13 +1,26 @@
 classdef PipelineConfig < handle
-    % PIPELINECONFIG is a standardized configuration object for modular fMRI pipelines
+    % PIPELINECONFIG centralizes configuration settings for the modular fMRI prediction pipeline
     %
-    % This class centralizes project paths, imaging settings, run-specific
-    % timing logic, feature extraction options, behavioral target naming,
-    % model comparison settings, and train/validation/test split definitions.
+    % Goals:
+    %   - Store project paths and core pipeline settings
+    %   - Define task and rest run timing parameters
+    %   - Specify feature extraction and model comparison settings
+    %   - Manage train, validation, and test dataset splits
     %
-    % Default public example:
-    %   - task run : capsaicin sustained-pain task run
-    %   - rest run : resting-state run
+    % Public example:
+    %   - task = capsaicin sustained-pain run
+    %   - rest = resting-state run
+    %
+    % Sample usage:
+    %   config = PipelineConfig();
+    %   config.Participants = {'sub-001','sub-002'};
+    %   config.validate_all();
+    %
+    % Inputs:
+    %   - Optional configuration overrides defined by the user
+    %
+    % Outputs:
+    %   - Configuration object used by all pipeline modules
     %
     % Author: Anel Zhunussova
 
