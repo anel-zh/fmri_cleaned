@@ -1,7 +1,7 @@
 classdef DataAssembler < handle
     % DATAASSEMBLER prepares model-ready datasets from extracted fMRI features
     %
-    % Goal:
+    % Goals:
     %   - Load extracted task and rest feature files
     %   - Split data into train, validation, and test sets
     %   - Bin connectivity and apply variance normalization
