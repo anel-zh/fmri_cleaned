@@ -17,6 +17,9 @@
 %           combined_task
 %           combined_task_rest
 %     - Output datasets are used by ModelTrainer
+%     - Participants and split options are defined for a small demonstration dataset
+%     - In this public example:
+%         - one participant / scan unit = one fold unit later in modeling
 %
 %% Content
 % 1. Initialize pipeline configuration.
