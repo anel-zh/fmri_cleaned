@@ -1,32 +1,33 @@
 classdef DataAssembler < handle
     % DATAASSEMBLER prepares model-ready datasets from extracted fMRI features
     %
-    % This class follows the following logic:
-    %   1. Load extracted task and rest feature files
-    %   2. Load behavioral ratings
-    %   3. Split data into train / valid / test by scan unit
-    %       - Scan unit can correspond to single participant from population dataset
-    %         or to single scan session from longitudinal dataset
-    %   4. Bin connectivity
-    %   5. Apply variance normalization
-    %   6. Build final comparison datasets
-    %
-    % Final comparison datasets:
-    %   1. dcc_task
-    %   2. dcc_task_rest
-    %   3. hrf_voxel_task
-    %   4. hrf_voxel_task_rest
-    %   5. combined_task
-    %   6. combined_task_rest
-    %
-    % Important conventions:
-    %   - X is stored as features x samples
-    %   - one fold = one scan unit
-    %   - task_rest models keep task + rest from the same scan unit in one fold
+    % Goal:
+    %   - Load extracted task and rest feature files
+    %   - Split data into train, validation, and test sets
+    %   - Bin connectivity and apply variance normalization
+    %   - Construct final model comparison datasets
     %
     % Public example:
     %   - task = capsaicin sustained-pain run
     %   - rest = resting-state run
+    %
+    % Sample usage:
+    %   config = PipelineConfig();
+    %   assembler = DataAssembler(config);
+    %   prepared_data = assembler.assemble_data();
+    %
+    % Inputs:
+    %   - PipelineConfig object
+    %   - Extracted DCC and HRF voxel feature files
+    %   - Processed behavioral targets
+    %
+    % Outputs:
+    %   - Prepared data structure used for model training
+    %
+    % Important notes:
+    %   - X is stored as features x samples
+    %   - one fold = one scan unit
+    %   - task_rest models keep task + rest from the same scan unit in one fold
     %
     % Author: Anel Zhunussova
 
