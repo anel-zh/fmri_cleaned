@@ -1,7 +1,7 @@
 %% Script Remarks
 % Feature extraction from preprocessed fMRI runs
 %
-% Goal:
+% Goals:
 %     - Load task and rest fMRI runs
 %     - Extract dynamic connectivity features using DCC
 %     - Extract HRF-based activation features
