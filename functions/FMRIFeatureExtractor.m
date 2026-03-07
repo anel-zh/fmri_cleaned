@@ -22,7 +22,7 @@ classdef FMRIFeatureExtractor < handle
     %
     % Outputs:
     %   - DCC connectivity features
-    %   - HRF ROI activation features (intermitten output used for DCC calculation) 
+    %   - HRF ROI activation features (intermediate output used for DCC calculation) 
     %   - HRF voxel activation features
     %
     % Author: Anel Zhunussova
