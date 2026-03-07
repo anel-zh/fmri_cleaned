@@ -1,22 +1,32 @@
 classdef BehavioralProcessor < handle
-    % BEHAVIORALPROCESSOR is a minimal behavioral preparation set-up for the
-    % modular fMRI prediction pipeline
+    % BEHAVIORALPROCESSOR prepares behavioral targets for the modular fMRI prediction pipeline
     %
-    % Goal:
-    %   - Load continuous ratings
-    %   - Interpolate ratings to TR
-    %   - Remove task stimulus-delivery period if requested
+    % Goals:
+    %   - Load continuous behavioral ratings
+    %   - Interpolate ratings to TR resolution
+    %   - Remove stimulus-delivery period if requested
     %   - Bin task and rest ratings using pipeline window settings
-    %   - Save processed outputs as:
-    %         task_behavioral_ratings
-    %         rest_behavioral_ratings
+    %   - Save processed behavioral outputs aligned to fMRI bins
     %
     % Public example:
     %   - task = capsaicin sustained-pain run
     %   - rest = resting-state run
     %
+    % Sample usage:
+    %   config = PipelineConfig();
+    %   processor = BehavioralProcessor(config);
+    %   processor.process_all();
+    %
+    % Inputs:
+    %   - PipelineConfig object
+    %   - Continuous behavioral rating files
+    %
+    % Outputs:
+    %   - task_behavioral_ratings
+    %   - rest_behavioral_ratings
+    %
     % Author: Anel Zhunussova
-
+    
     properties
         Config      % PipelineConfig object
     end
