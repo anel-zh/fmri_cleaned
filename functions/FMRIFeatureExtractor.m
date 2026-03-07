@@ -1,13 +1,29 @@
 classdef FMRIFeatureExtractor < handle
-    % FMRIFEATUREEXTRACTOR is a modular pipeline for fMRI feature extraction
+    % FMRIFEATUREEXTRACTOR extracts predictive features from preprocessed fMRI task and rest runs
     %
-    % Developed this class to handle denoising, connectivity (DCC), and
-    % activation (HRF voxel / ROI) extraction in a unified workflow.
+    % Goals:
+    %   - Load preprocessed fMRI runs
+    %   - Compute dynamic connectivity features using DCC
+    %   - Extract HRF-based activation features
+    %   - Save feature matrices for downstream modeling
     %
-    % The default public example assumes:
-    %   - task run : capsaicin sustained-pain task run
-    %   - rest run : resting-state run
+    % Public example:
+    %   - task = capsaicin sustained-pain run
+    %   - rest = resting-state run
     %
+    % Sample usage:
+    %   config = PipelineConfig();
+    %   extractor = FMRIFeatureExtractor(config);
+    %   extractor.extract_all();
+    %
+    % Inputs:
+    %   - PipelineConfig object
+    %   - Preprocessed fMRI time-series
+    %
+    % Outputs:
+    %   - DCC connectivity features
+    %   - HRF ROI activation features (intermitten output used for DCC calculation) 
+    %   - HRF voxel activation features
     %
     % Author: Anel Zhunussova
 
