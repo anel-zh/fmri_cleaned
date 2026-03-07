@@ -15,7 +15,7 @@ classdef BehavioralProcessor < handle
     % Sample usage:
     %   config = PipelineConfig();
     %   processor = BehavioralProcessor(config);
-    %   processor.process_all();
+    %   processor.prepare_all();
     %
     % Inputs:
     %   - PipelineConfig object
