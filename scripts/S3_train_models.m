@@ -1,33 +1,24 @@
 %% Script Remarks
-% Example pipeline script for model development, validation, and testing
+% Model training, validation, and testing for fMRI prediction models (6 final models) 
 %
-% Goal:
-%     - Train all final comparison models internally through ModelTrainer
-%     - Create structure with the following results:
-%           * training
-%           * validation
-%           * testing
-%           * best PC selected from validation
-%           * separate storage of weights, stats, and outputs
-%
-% Final comparison models:
-%     1. dcc_task
-%     2. dcc_task_rest
-%     3. hrf_voxel_task
-%     4. hrf_voxel_task_rest
-%     5. combined_task
-%     6. combined_task_rest
+% Goals:
+%     - Train predictive models using cross-validation
+%     - Select optimal model complexity using validation data
+%     - Evaluate final model performance on the test dataset
+%     - Save model weights, predictions, and evaluation metrics
 %
 % Notes:
-%     - ModelTrainer loops over all model conditions internally
-%     - X is stored as features x samples
-%     - one fold = one scan unit
-
+%     - Models are trained for multiple feature configurations
+%     - Results are saved in a structured format for later analysis
+%     - Participants and split options are defined for a small demonstration dataset
+%     - In this public example:
+%         - one participant / scan unit = one fold unit in modeling
+%
 %% Content
-% 1. Initialize configuration.
-% 2. Load prepared data.
-% 3. Run model training / validation / testing.
-% 4. Save results structure.
+% 1. Initialize pipeline configuration.
+% 2. Load prepared datasets.
+% 3. Run model development.
+% 4. Save model results.
 
 clc
 clear
