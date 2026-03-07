@@ -1,96 +1,20 @@
-# fMRI Pain Prediction Pipeline
+## Introduction
 
-A modular MATLAB pipeline for predicting continuous pain ratings from fMRI data using activation and dynamic connectivity features.
+Functional MRI (fMRI) produces high-dimensional, 4D datasets in which neural signals evolve across both space and time. Transforming these thousands of spatial units and temporal acquisition points into structured inputs for predictive modeling presents significant computational challenges. This is further complicated by the need to precisely align continuous behavioral data with imaging acquisition sequences.
 
-This repository demonstrates a complete neuroimaging machine-learning workflow including behavioral preprocessing, feature extraction, dataset assembly, predictive modeling, and visualization.
+This repository provides a modular MATLAB pipeline designed for brain–behavior prediction using time-resolved neuroimaging data. The workflow standardizes the transition from raw data to predictive insights through reproducible stages: behavioral preprocessing, temporal alignment, denoising, neural feature extraction, dataset assembly, and cross-validated modeling.
 
----
+## Project Motivation
 
-## Pipeline Overview
+A core objective of this pipeline is to bridge the gap between two traditionally separate analytical approaches: **activation-based** and **connectivity-based** modeling. While most neuroimaging workflows focus on one or the other, this framework integrates both within a unified predictive architecture.
 
-The pipeline consists of five stages:
+The pipeline extracts and models two complementary feature families:
 
-1. Behavioral preprocessing  
-   Continuous ratings → TR-aligned time series → behavioral bins
+- **Activation features** derived via single-trial **Hemodynamic Response Function (HRF) regression** at the voxel or atlas-defined region level, capturing localized stimulus-evoked neural responses.
+- **Connectivity features** computed using **Dynamic Conditional Correlation (DCC)**, a GARCH-based multivariate time-series method that estimates **time-varying functional interactions between brain regions**.
 
-2. Feature extraction  
-   HRF activation (voxel level) and dynamic connectivity (DCC)
+By combining these representations, the framework captures both **localized neural processing** and **large-scale network dynamics**. This dual-stream modeling approach enables direct comparison of each feature family’s predictive contribution while reducing multicollinearity and improving the interpretability of brain–behavior relationships.
 
-3. Dataset assembly  
-   Feature alignment, binning, normalization, and model dataset construction
+## Repository Note
 
-4. Model training  
-   Predictive models trained using cross-validation and PC selection
-
-5. Visualization  
-   Model comparison and prediction plots
-
----
-
-## Repository Structure
-fmri-pain-prediction-pipeline
-│
-├── config
-│   └── PipelineConfig.m
-│
-├── processors
-│   └── BehavioralProcessor.m
-│
-├── features
-│   └── FMRIFeatureExtractor.m
-│
-├── data
-│   └── DataAssembler.m
-│
-├── modeling
-│   └── ModelTrainer.m
-│
-├── visualization
-│   └── ResultVisualizer.m
-│
-├── scripts
-│   ├── S1_prepare_behavior.m
-│   ├── S2_extract_features.m
-│   ├── S3_prepare_datasets.m
-│   ├── S4_train_models.m
-│   └── S5_visualize_results.m
-
-## Dependencies
-
-Required:
-
-MATLAB (tested with R2022+)
-
-Optional:
-
-CANlab / cocoanCORE visualization utilities for advanced plots
-
-The core pipeline runs without these dependencies.
-
-## Running the Pipeline
-
-Run the scripts sequentially:
-
-S1_prepare_behavior.m
-S2_extract_features.m
-S3_prepare_datasets.m
-S4_train_models.m
-S5_visualize_results.m
-
-Each script initializes the pipeline configuration and executes a stage of the workflow.
-
-## Output
-
-Running the full pipeline produces:
-
-processed_behavioral_public_example.mat
-prepared_data_public_example.mat
-results_structure_public_example.mat
-validation_summary_public_example.mat
-testing_summary_public_example.mat
-validation_summary_public_example.csv
-testing_summary_public_example.csv
-
-These outputs contain behavioral targets, feature matrices, trained model parameters, and performance summaries.
-
-Author: Anel Zhunussova
+This public repository features a **demonstration version** of the pipeline using a sustained-pain fMRI case. While simplified to protect unpublished research findings, it preserves the core modular architecture and computational principles of the original pipeline. It serves as a scalable and reproducible template that can be adapted for diverse task-based or resting-state fMRI studies.
