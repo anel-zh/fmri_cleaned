@@ -1,5 +1,5 @@
 %% Script Remarks
-% Example pipeline script for visualization and summary of model results
+% Visualization and summary of fMRI prediction model results
 %
 % Goals:
 %     - Load saved model results
