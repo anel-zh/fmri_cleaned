@@ -1,11 +1,10 @@
 %% Script Remarks
-% Supplementary script for behavioral data processing
-% Participants and split options are based on small example sample for demonstration purposes
+% Behavioral data preparation for the modular fMRI prediction pipeline
 %
-% Goal:
+% Goals:
 %     - Load raw continuous behavioral ratings
-%     - Interpolate ratings to TR
-%     - Apply task/rest timing rules
+%     - Interpolate ratings to TR resolution
+%     - Apply task and rest timing rules
 %     - Bin ratings into final model-ready behavioral targets
 %     - Save outputs as:
 %           task_behavioral_ratings
@@ -15,11 +14,12 @@
 %     - Task run corresponds to a capsaicin sustained-pain run
 %     - Rest run corresponds to a resting-state run
 %     - Saved outputs are later loaded by DataAssembler
-
-%% Content:
-% 1. Initialize configuration.
-% 2. Define participants and split.
-% 3. Prepare behavioral targets.
+%     - Participants and split options are defined for a small demonstration dataset
+%
+%% Content
+% 1. Initialize pipeline configuration.
+% 2. Define participants and dataset split.
+% 3. Process behavioral ratings.
 % 4. Save processed behavioral structure.
 
 clc
