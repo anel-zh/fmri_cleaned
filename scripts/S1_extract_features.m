@@ -1,0 +1,77 @@
+%% Script Remarks
+% Example pipeline script for feature extraction from preprocessed fMRI data
+%
+% Goal:
+%     - Public example pipeline for time-series fMRI feature extraction
+%     - Task run corresponds to a capsaicin sustained-pain run
+%     - Rest run corresponds to a resting-state run
+%     - Extracting:
+%           1. Dynamic Conditional Correlation (DCC)
+%           2. HRF voxel-level activation
+%           3. HRF ROI-level activation (used upstream for DCC derivation)
+%
+% Notes:
+%     - Input data are assumed to be preprocessed already
+%     - Feature extraction results are saved to disk
+%     - Folder structure and timing logic are controlled through PipelineConfig
+
+%% Content
+% 1. Initialize configuration.
+% 2. Define participants and example split.
+% 3. Run feature extraction.
+% 4. Save configuration summary.
+
+clc
+clear
+
+%% 1. Initialize configuration
+config = PipelineConfig();
+
+% -------------------------------------------------------------------------
+% Update these IDs for the real dataset
+% In this public example:
+%   - one participant / scan unit = one fold unit later in modeling
+% -------------------------------------------------------------------------
+config.Participants = { ...
+    'sub-001', ...
+    'sub-002', ...
+    'sub-003', ...
+    'sub-004', ...
+    'sub-005'};
+
+% Example split definition
+config.ModelSplit.train_ids = {'sub-001', 'sub-002', 'sub-003'};
+config.ModelSplit.valid_ids = {'sub-004'};
+config.ModelSplit.test_ids  = {'sub-005'};
+
+% Validate config
+config.validate_all();
+
+if config.Verbose
+    config.print_summary();
+end
+
+%% 2. Initialize extractor
+extractor = FMRIFeatureExtractor(config);
+
+%% 3. Run feature extraction
+% Supported extraction methods:
+%   - dcc
+%   - hrf_roi
+%   - hrf_voxel
+%
+% Notes:
+%   - hrf_roi is kept because ROI-level extraction is needed for DCC derivation
+%   - final modeling uses:
+%         dcc
+%         hrf_voxel
+%         combined = dcc + hrf_voxel
+
+extractor.extract_features( ...
+    'Methods', {'dcc', 'hrf_roi', 'hrf_voxel'}, ...
+    'Runs', {'task', 'rest'}, ...
+    'ApplyDurationCut', true, ...
+    'FolderSuffix', 'public_example');
+
+%% 4. Save configuration summary
+save(fullfile(config.ResultsDir, 'config_used_for_feature_extraction.mat'), 'config', '-v7.3');
