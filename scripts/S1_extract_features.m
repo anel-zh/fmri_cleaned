@@ -11,6 +11,9 @@
 %     - Task run corresponds to a capsaicin sustained-pain run
 %     - Rest run corresponds to a resting-state run
 %     - Extracted features are later assembled by DataAssembler
+%     - Participants and split options are defined for a small demonstration dataset
+%     - In this public example:
+%         - one participant / scan unit = one fold unit later in modeling
 %
 %% Content
 % 1. Initialize pipeline configuration.
@@ -23,11 +26,6 @@ clear
 
 %% 1. Initialize configuration
 config = PipelineConfig();
-% -------------------------------------------------------------------------
-% Update these IDs for the real dataset
-% In this public example:
-%   - one participant / scan unit = one fold unit later in modeling
-% -------------------------------------------------------------------------
 config.Participants = { ...
     'sub-001', ...
     'sub-002', ...
