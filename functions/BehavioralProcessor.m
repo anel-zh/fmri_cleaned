@@ -68,7 +68,10 @@ classdef BehavioralProcessor < handle
                 task_behavioral_ratings = obj.bin_ratings(task_tr, obj.Config.RunConfig.task.WindowSizeTR, obj.Config.RunConfig.task.NumBins);
                 rest_behavioral_ratings = obj.bin_ratings(rest_tr, obj.Config.RunConfig.rest.WindowSizeTR, obj.Config.RunConfig.rest.NumBins);
 
-                processed_behavioral.(scan_unit_id) = struct();
+                safe_id = matlab.lang.makeValidName(scan_unit_id);
+
+                processed_behavioral.(safe_id) = struct();
+                processed_behavioral.(safe_id).scan_unit_id = scan_unit_id;
                 processed_behavioral.(scan_unit_id).task_behavioral_ratings = task_behavioral_ratings;
                 processed_behavioral.(scan_unit_id).rest_behavioral_ratings = rest_behavioral_ratings;
 
