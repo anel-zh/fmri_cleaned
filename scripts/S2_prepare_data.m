@@ -1,34 +1,29 @@
 %% Script Remarks
-% Example pipeline script for preparing extracted fMRI features into
-% model-ready datasets
+% Preparation of model-ready datasets from extracted fMRI features
 %
-% Goal:
-%     - Load extracted task and rest feature outputs from disk
-%     - Split data into train / valid / test by scan unit
-%     - Bin connectivity after split
-%     - Apply variance normalization after binning for both:
-%           * dcc
-%           * hrf_voxel
-%     - Assemble final comparison datasets for:
-%           1. dcc_task
-%           2. dcc_task_rest
-%           3. hrf_voxel_task
-%           4. hrf_voxel_task_rest
-%           5. combined_task
-%           6. combined_task_rest
+% Goals:
+%     - Load extracted feature files and behavioral targets
+%     - Split data into train, validation, and test sets
+%     - Bin connectivity features
+%     - Apply variance normalization after binning
+%     - Construct final model comparison datasets
 %
 % Notes:
-%     - Combined models use:
-%           dcc + hrf_voxel
-%     - HRF ROI is not used as a final modeling branch
-%     - X is stored as features x samples
-%     - one fold = one scan unit
-
+%     - Final comparison models include:
+%           dcc_task
+%           dcc_task_rest
+%           hrf_voxel_task
+%           hrf_voxel_task_rest
+%           combined_task
+%           combined_task_rest
+%     - Output datasets are used by ModelTrainer
+%
 %% Content
-% 1. Initialize configuration.
-% 2. Define participants and split.
-% 3. Prepare model-ready datasets.
-% 4. Save prepared data.
+% 1. Initialize pipeline configuration.
+% 2. Load extracted feature files.
+% 3. Assemble model-ready datasets.
+% 4. Save prepared data structure.
+
 
 clc
 clear
@@ -36,7 +31,7 @@ clear
 %% 1. Initialize configuration
 config = PipelineConfig();
 
-config.Participants = { ... % example set-up of IDs
+config.Participants = { ... 
     'sub-001', ...
     'sub-002', ...
     'sub-003', ...
