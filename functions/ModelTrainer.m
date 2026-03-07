@@ -1,24 +1,31 @@
 classdef ModelTrainer < handle
-    % MODELTRAINER is a class for model development, validation, and testing
+    % MODELTRAINER performs model training, validation, and testing for fMRI-based prediction models
     %
-    % Goal:
-    %   - loop through all model comparison datasets internally
-    %   - train across a PC range
-    %   - use validation to select the best PC
-    %   - apply the final selected model on the held-out test set
-    %   - save results in a structured and convenient format
+    % Goals:
+    %   - Train predictive models using cross-validation
+    %   - Select the optimal number of components via validation
+    %   - Evaluate final model performance on the test dataset
+    %   - Save model weights, predictions, and evaluation metrics
     %
-    % Final model comparison datasets:
-    %   1. dcc_task
-    %   2. dcc_task_rest
-    %   3. hrf_voxel_task
-    %   4. hrf_voxel_task_rest
-    %   5. combined_task
-    %   6. combined_task_rest
+    % Public example:
+    %   - task = capsaicin sustained-pain run
+    %   - rest = resting-state run
     %
-    % Important remarks:
-    %   - X is stored as features x samples
-    %   - one fold = one scan unit
+    % Sample usage:
+    %   config = PipelineConfig();
+    %   trainer = ModelTrainer(config);
+    %   results = trainer.train_all_models(prepared_data);
+    %
+    % Inputs:
+    %   - PipelineConfig object
+    %   - Prepared model datasets
+    %
+    % Outputs:
+    %   - Results structure containing:
+    %         training results
+    %         validation results
+    %         testing results
+    %         model weights
     %
     % Author: Anel Zhunussova
 
@@ -74,50 +81,36 @@ classdef ModelTrainer < handle
 
                 obj.print_model_header(model_name);
 
-                % ---------------------------------------------------------
-                % Split data
-                % ---------------------------------------------------------
+                % 1. Split data
                 split_data = obj.build_split_datasets(dataset);
 
                 if obj.is_invalid_split(split_data, model_name)
                     continue;
                 end
 
-                % ---------------------------------------------------------
-                % Define PC range
-                % ---------------------------------------------------------
+                % 2. Define PC range
                 if isempty(args.PCRange)
                     PC_range = obj.get_pc_range(split_data.train);
                 else
                     PC_range = args.PCRange;
                 end
 
-                % ---------------------------------------------------------
-                % Training
-                % ---------------------------------------------------------
+                % 3. Training
                 [training_result, stats_table, model_weights_table] = ...
                     obj.training(split_data.train, PC_range);
 
-                % ---------------------------------------------------------
-                % Validation
-                % ---------------------------------------------------------
+                % 4. Validation
                 validation_result = obj.validation( ...
                     split_data.valid, model_weights_table, args.PerformanceMetric);
 
-                % ---------------------------------------------------------
-                % Best PC
-                % ---------------------------------------------------------
+                % 5. Best PC
                 best_PC = validation_result.best_PC;
 
-                % ---------------------------------------------------------
-                % Testing
-                % ---------------------------------------------------------
+                % 6. Testing
                 testing_result = obj.testing( ...
                     split_data.test, model_weights_table, best_PC);
 
-                % ---------------------------------------------------------
-                % Save into results structure
-                % ---------------------------------------------------------
+                % 7. Save into results structure
                 results_structure.training.(model_name) = training_result;
                 results_structure.training.(model_name).stats_table = stats_table;
 
@@ -127,9 +120,7 @@ classdef ModelTrainer < handle
                 results_structure.best_PC.(model_name) = best_PC;
                 results_structure.model_info.(model_name) = obj.get_model_info(dataset, split_data, PC_range);
 
-                % ---------------------------------------------------------
-                % Save per-model outputs
-                % ---------------------------------------------------------
+                % 8. Save per-model outputs
                 if args.SaveResults
                     obj.save_model_outputs(save_dir, model_name, ...
                         training_result, validation_result, testing_result, ...
@@ -435,7 +426,7 @@ classdef ModelTrainer < handle
         end
 
         function performance = get_performance(~, y, yfit, whfolds)
-            % Computes performance in the style of the original pipeline
+            % Computes performance
 
             y = y(:);
             yfit = yfit(:);
@@ -463,7 +454,7 @@ classdef ModelTrainer < handle
         end
 
         function ratings_all = get_shaped_outputs(~, dataset, y, yfit)
-            % Organizes outputs in a structure close to the original plotting style
+            % Organizes outputs in a structure
 
             y = y(:);
             yfit = yfit(:);
