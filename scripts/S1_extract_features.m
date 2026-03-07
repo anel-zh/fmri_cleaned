@@ -1,32 +1,28 @@
 %% Script Remarks
-% Example pipeline script for feature extraction from preprocessed fMRI data
+% Feature extraction from preprocessed fMRI runs
 %
 % Goal:
-%     - Public example pipeline for time-series fMRI feature extraction
-%     - Task run corresponds to a capsaicin sustained-pain run
-%     - Rest run corresponds to a resting-state run
-%     - Extracting:
-%           1. Dynamic Conditional Correlation (DCC)
-%           2. HRF voxel-level activation
-%           3. HRF ROI-level activation (used upstream for DCC derivation)
+%     - Load task and rest fMRI runs
+%     - Extract dynamic connectivity features using DCC
+%     - Extract HRF-based activation features
+%     - Save extracted feature matrices for modeling
 %
 % Notes:
-%     - Input data are assumed to be preprocessed already
-%     - Feature extraction results are saved to disk
-%     - Folder structure and timing logic are controlled through PipelineConfig
-
+%     - Task run corresponds to a capsaicin sustained-pain run
+%     - Rest run corresponds to a resting-state run
+%     - Extracted features are later assembled by DataAssembler
+%
 %% Content
-% 1. Initialize configuration.
-% 2. Define participants and example split.
+% 1. Initialize pipeline configuration.
+% 2. Define participants and dataset split.
 % 3. Run feature extraction.
-% 4. Save configuration summary.
+% 4. Save extracted feature files.
 
 clc
 clear
 
 %% 1. Initialize configuration
 config = PipelineConfig();
-
 % -------------------------------------------------------------------------
 % Update these IDs for the real dataset
 % In this public example:
