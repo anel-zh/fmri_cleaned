@@ -1,7 +1,7 @@
 %% Script Remarks
 % Example pipeline script for visualization and summary of model results
 %
-% Goal:
+% Goals:
 %     - Load saved model results
 %     - Visualize:
 %           * validation-based PC selection
