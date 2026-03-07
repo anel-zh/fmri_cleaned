@@ -72,8 +72,8 @@ classdef BehavioralProcessor < handle
 
                 processed_behavioral.(safe_id) = struct();
                 processed_behavioral.(safe_id).scan_unit_id = scan_unit_id;
-                processed_behavioral.(scan_unit_id).task_behavioral_ratings = task_behavioral_ratings;
-                processed_behavioral.(scan_unit_id).rest_behavioral_ratings = rest_behavioral_ratings;
+                processed_behavioral.(safe_id).task_behavioral_ratings = task_behavioral_ratings;
+                processed_behavioral.(safe_id).rest_behavioral_ratings = rest_behavioral_ratings;
 
                 if args.SaveResults
                     obj.save_processed_behavioral(scan_unit_id, task_behavioral_ratings, rest_behavioral_ratings);
