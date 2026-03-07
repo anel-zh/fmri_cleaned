@@ -1,19 +1,30 @@
 classdef ResultVisualizer < handle
-    % RESULTVISUALIZER is visualization and reporting utilities for model results
+    % RESULTVISUALIZER generates evaluation plots and summaries for fMRI prediction model results
     %
-    % This class provides plotting and reporting functions for:
-    %   - validation-based PC selection
-    %   - observed vs predicted outcomes
-    %   - task and task_rest plotting structures
-    %   - model weight inspection
-    %   - cross-model summary tables
+    % Goals:
+    %   - Visualize validation-based model selection
+    %   - Plot observed versus predicted outcomes
+    %   - Inspect model weights and prediction patterns
+    %   - Summarize model performance across comparison models
     %
-    % It is designed to work directly with the results structure produced by
-    % ModelTrainer and to preserve the convenience of separated training,
-    % validation, testing, and weights outputs.
+    % Public example:
+    %   - task = capsaicin sustained-pain run
+    %   - rest = resting-state run
+    %
+    % Sample usage:
+    %   config = PipelineConfig();
+    %   visualizer = ResultVisualizer(config);
+    %   visualizer.plot_results(results);
+    %
+    % Inputs:
+    %   - PipelineConfig object
+    %   - Model results structure
+    %
+    % Outputs:
+    %   - Performance figures and diagnostic plots
     %
     % Author: Anel Zhunussova
-
+    
     properties
         Config      % PipelineConfig object
     end
